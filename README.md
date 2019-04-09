@@ -1,7 +1,49 @@
-# Github Trends
+# Тренды гитхаба
 
-[TODO. There will be project description]
+Выводит 20 трендовых репозиториев гитхаба, созданых за прошедшую неделю.
 
-# Project Goals
+# Как запустить
 
-The code is written for educational purposes. Training course for web-developers - [DEVMAN.org](https://devman.org)
+Пример на Linux:
+
+Скрипт требует для своей работы установленного интерпретатора Python версии 3.5.
+
+```bash
+$ python github_trending.py
+
+    Имя: water.css
+    Звёзд: 2267
+    Описание: A just-add-css collection of styles to make simple websites just a little nicer
+    Ссылка: https://github.com/kognise/water.css
+    Открытых проблемм: 14
+
+```
+
+
+# Цели проекта
+
+Код создан в учебных целях. В рамках учебного курса по веб-разработке - [DEVMAN.org](https://devman.org)
+
+
+# Ресайзер изображений
+
+Создаёт копию изображения, указанного размера.
+
+# Как запустить
+
+Скрипт требует для своей работы установленного интерпретатора Python версии 3.5.
+Для работы скрипта обязательно указывается путь к исходному избражению. 
+Есть дополнительные параметры:
+1. `-w` - длина изображения в пикселях.
+2. `-hg` - ширина изображения в пикселях.
+3. `-s` - масштаб. Указывается при отсутствии предыдущих параметров.
+4. `-o` - имя итогового изображения.
+
+Пример на Linux:
+
+```bash
+
+$ python image_resize.py image.jpg -w 1024 -hg 600 -o ./new_image.jpg
+Изображение создано
+```
+
