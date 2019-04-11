@@ -26,7 +26,10 @@ def get_open_issues(repos_url):
             'page': page,
             'per_page': 50,
         }
-        resp = requests.get(repos_url+"/issues", params=params)
+        resp = requests.get(
+            '{}/{}'.format(repos_url, '/issues'),
+            params=params
+        )
         data_issues = resp.json()
         if not data_issues:
             break
@@ -37,7 +40,7 @@ def get_open_issues(repos_url):
 def get_open_issues_amount(repos_url):
     amount = 0
     for issue in get_open_issues(repos_url):
-        if 'pull_request' in issue:
+        if 'pull_request' not in issue:
             amount += 1
     return amount
 
