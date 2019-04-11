@@ -1,7 +1,6 @@
 import requests
 from datetime import datetime, timedelta
 
-GITHUB_API_SEARCH_URL = 'https://api.github.com/search/repositories'
 COUNT_REPOSITORIES = 20
 DAYS_DELTA = 7
 
@@ -14,10 +13,36 @@ def get_trending_repositories(top_size, time_delta):
         'sort': 'stars',
         'per_page': top_size,
     }
-    resp = requests.get(GITHUB_API_SEARCH_URL, params=params)
+    url_search_api = 'https://api.github.com/search/repositories'
+    resp = requests.get(url_search_api, params=params)
     return resp.json()['items']
 
-if __name__ == '__main__':
+
+def get_open_issues(repos_url):
+    page = 1
+    while True:
+        params = {
+            'state': 'open',
+            'page': page,
+            'per_page': 50,
+        }
+        resp = requests.get(repos_url+"/issues", params=params)
+        data_issues = resp.json()
+        if not data_issues:
+            break
+        page += 1
+        yield from data_issues
+
+
+def get_open_issues_amount(repos_url):
+    amount = 0
+    for issue in get_open_issues(repos_url):
+        if 'pull_request' in issue:
+            amount += 1
+    return amount
+
+
+def main():
     repositories = get_trending_repositories(COUNT_REPOSITORIES, DAYS_DELTA)
     tmpl = '''
     Имя: {}
@@ -32,6 +57,9 @@ if __name__ == '__main__':
             rep['stargazers_count'],
             rep['description'],
             rep['html_url'],
-            rep['open_issues'],
+            get_open_issues_amount(rep['url']),
         )
         print(rep_info)
+
+if __name__ == '__main__':
+    main()
